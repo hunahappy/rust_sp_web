@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>sp {{uid}} {{data}}</title>
+
+    <!-- Webix CDN -->
+    <link rel="stylesheet" href="/public/js/webix/codebase/webix.css" type="text/css" media="screen" charset="utf-8">
+    <script src="/public/js/webix/codebase/webix.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/public/app_js/common.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/public/app_js/system_info.js" type="text/javascript" charset="utf-8"></script>
+
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script>
+        webix.ready(function () {
+
+            webix.ui({
+                rows: [
+                    top_menu,
+                    {
+                        view: "tree",
+                        id: "tr1",
+                        scroll: "y",
+                    },
+                ]
+            }
+            );
+
+            init_page();
+        });
+    </script>
+
+</body>
+
+</html>

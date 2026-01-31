@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>sp {{uid}} {{data}}</title>
+
+  <!-- Webix CDN -->
+  <link rel="stylesheet" href="/public/js/webix/codebase/webix.css" type="text/css" media="screen" charset="utf-8">
+  <script src="/public/js/webix/codebase/webix.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/public/app_js/common.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/public/app_js/report_th_1.js" type="text/javascript" charset="utf-8"></script>
+
+
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 10;
+    }
+  </style>
+</head>
+
+<body>
+
+  <script>
+    webix.ready(function () {
+
+      webix.ui({
+        rows: [
+          top_menu,
+          {
+            view: "toolbar",
+            height: 50,
+            css: "webix_dark",
+            paddingX: 10,
+            elements: [
+
+              /* ===== 콤보박스 1 ===== */
+              {
+                view: "combo",
+                id: "combo_dan",
+                width: 150,
+                labelWidth: 40,
+                options: [
+                  { id: "m1", value: "1분" },
+                  { id: "m10", value: "10분" },
+                  { id: "h1", value: "1시간" },
+                  { id: "d1", value: "하루" },
+                ]
+              },
+              { width: 20 },
+              { view: "label", label: "기간", width: 50 },
+              {
+                view: "datepicker",
+                id: "startDate",
+                stringResult: true,
+                format: "%Y-%m-%d",
+                placeholder: "시작일",
+                width: 150
+              },
+              { view: "label", label: "~", width: 20, align: "center" },
+              {
+                view: "datepicker",
+                id: "endDate",
+                stringResult: true,
+                format: "%Y-%m-%d",
+                placeholder: "종료일",
+                width: 150
+              },
+              { width: 20 },
+              /* ===== 콤보박스 2 ===== */
+              {
+                view: "combo",
+                id: "combo_juya",
+                width: 160,
+                label: "주야",
+                labelWidth: 40,
+                options: [
+                  { id: "all", value: "모두" },
+                  { id: "ju", value: "주간" },
+                  { id: "ya", value: "야간" }
+                ]
+              },
+              { width: 50 },
+              {
+                view: "button",
+                type: "icon",
+                icon: "wxi-sync",
+                label: "조회",
+                width: 100,
+                click: function () {
+                  on_search();
+                }
+              },
+            ]
+          },
+
+          /* =========================
+             차트 영역
+          ========================== */
+          {
+            rows: [
+              {
+                rows: [
+                  {
+                    view: "chart",
+                    id: "chart1",
+                    type: "line",
+                    value: "#온도#",
+                    yAxis: {
+                      title: "온도"
+                    },
+                    xAxis: {
+                      template: function (obj) {
+                        var chart = $$("chart1");
+                        var prevId = chart.getPrevId(obj.id);
+
+                        if (!prevId) return obj.일자;   // 첫번째는 출력
+
+                        var prev = chart.getItem(prevId);
+                        return prev.일자 === obj.일자 ? "" : obj.일자;
+                      },
+                      lines: false
+                    },
+                    item: {
+                      radius: 1,
+                      borderColor: "#f38f00",
+                      borderWidth: 1,
+                      color: "#ff9600",
+                      type: "d",
+                      shadow: true
+                    },
+                  },
+                  {
+                    view: "chart",
+                    id: "chart2",
+                    type: "line",
+                    value: "#조도#",
+                    yAxis: {
+                      title: "조도"
+                    },
+                    xAxis: {
+                      template: function (obj) {
+                        var chart = $$("chart2");
+                        var prevId = chart.getPrevId(obj.id);
+
+                        if (!prevId) return obj.일자;   // 첫번째는 출력
+
+                        var prev = chart.getItem(prevId);
+                        return prev.일자 === obj.일자 ? "" : obj.일자;
+                      },
+                      lines: false
+                    },
+                    item: {
+                      radius: 1,
+                      borderColor: "#f38f00",
+                      borderWidth: 1,
+                      color: "#ff9600",
+                      type: "d",
+                      shadow: true
+                    },
+                  },
+                  {
+                    view: "chart",
+                    id: "chart3",
+                    type: "line",
+                    value: "#습도#",
+                    yAxis: {
+                      title: "습도",
+                      start: 0,
+                      step: 10,
+                      end: 100
+                    },
+                    xAxis: {
+                      template: function (obj) {
+                        var chart = $$("chart3");
+                        var prevId = chart.getPrevId(obj.id);
+
+                        if (!prevId) return obj.일자;   // 첫번째는 출력
+
+                        var prev = chart.getItem(prevId);
+                        return prev.일자 === obj.일자 ? "" : obj.일자;
+                      },
+                      lines: false
+                    },
+                    item: {
+                      radius: 1,
+                      borderColor: "#f38f00",
+                      borderWidth: 1,
+                      color: "#ff9600",
+                      type: "d",
+                      shadow: true
+                    },
+                  },
+
+                ]
+              }
+
+            ]
+          }
+        ]
+      });
+
+      init_page();
+
+    });
+  </script>
+
+</body>
+
+</html>
